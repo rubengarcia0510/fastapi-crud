@@ -3,7 +3,7 @@ from bson import ObjectId
 from decouple import config
 
 connection_details = config("DB_HOST")
-
+print("El host de la base de datos es : "+connection_details)
 client = MongoClient(connection_details)
 
 database = client.recipes
