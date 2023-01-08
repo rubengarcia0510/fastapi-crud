@@ -1,12 +1,11 @@
-FROM python:3.8
+FROM maven:3 AS build
+WORKDIR /code
+COPY . /code/
+RUN mvn install
 
+FROM openjdk:17-jdk-slim-buster
+EXPOSE 8081
 WORKDIR /app
-
 ADD . .
-RUN pip install -r requirements.txt
-
-EXPOSE 8080
-
-COPY ./app /app
-
-CMD ["python3", "main.py"]
+COPY --from=build /code/build/libs/*.jar .
+CMD java -jar *.jar
